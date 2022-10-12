@@ -6,9 +6,12 @@ import { BiLock } from "react-icons/bi";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { login } from "../../StateManagement/userSlice";
 
 const Login = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -21,6 +24,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const {email , password} = data ;
     await signInWithEmailAndPassword(email , password)
+    dispatch(login("{email , password}"))
   };
 
   if(user){
