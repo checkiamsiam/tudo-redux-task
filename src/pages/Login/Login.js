@@ -23,10 +23,8 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data;
     await signInWithEmailAndPassword(email, password);
-    if (user) {
-      dispatch(setUser({ email, password }));
-      navigate("/dashboard");
-    }
+    dispatch(setUser({ email, password }));
+    navigate("/dashboard");
   };
 
   return (
