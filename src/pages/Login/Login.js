@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { BsFillEyeFill } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
@@ -6,34 +6,28 @@ import { BiLock } from "react-icons/bi";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
-import { login } from "../../StateManagement/userSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../StateManagement/userSlice";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [signInWithEmailAndPassword, user ] =
-  useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user] = useSignInWithEmailAndPassword(auth);
 
   const onSubmit = async (data) => {
-    const {email , password} = data ;
-    await signInWithEmailAndPassword(email , password)
-    dispatch(login("{email , password}"))
+    const { email, password } = data;
+    await signInWithEmailAndPassword(email, password);
+    if (user) {
+      dispatch(setUser({ email, password }));
+      navigate("/dashboard");
+    }
   };
-
-  if(user){
-    navigate('/dashboard')
-  }
-
-  
-
- 
 
   return (
     <>
